@@ -1,0 +1,12 @@
+Aplikácia zgrupuje burgerovne Brna zatiaľ čo návrh celého burgru necháva na samotného zákazníka.
+Užívateľ si zvolí burgerovňu na mape, následne dostane na výber ingrediencie z ktorých si skladá burger podľa svojich predstáv. Posledným krokom je samotné objednanie burgeru.
+
+Splnenie požiadavok:
+-	Práca s mapou: Výber prevádzky z ktorej si zákazník objednáva
+-	Persistencia dát do SQL: info o predošlých objednávkach, uložené návrhy burgerov vo favorites
+-	DataStore: Aplikácia si pamätá rozpracované objednávky
+-	Zoznam: zoznam objednávok, zoznam ingrediencii na výber
+-	ML Kit: vizualizácia finálneho burgru (not sure ako zakomponujem ML Kit, uvidím keĎ budem vedieť o čo ide a ako funguje)
+-	Práca s mapou: Prevádzky si volí užívateľ na mape, clustering prevádzok
+-	Sťahovanie z verejného API: nie som si istý zatiaľ, možno kalorické tabulky na zrátanie nutričných hodnôt finálneho produktu
+-	Testy: Samozrejmosť :)
