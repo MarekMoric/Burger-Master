@@ -1,5 +1,5 @@
 Aplikácia zgrupuje burgerovne Brna zatiaľ čo návrh celého burgru necháva na samotného zákazníka.
-Užívateľ si zvolí burgerovňu na mape, následne dostane na výber ingrediencie z ktorých si skladá burger podľa svojich predstáv. Posledným krokom je samotné objednanie burgeru.
+Užívateľ si zvolí ingrediencie z ktorých si skladá burger podľa svojich predstáv, následne dostane na výber mapu s prevádzkami z ktorých môže objednávať. Posledným krokom je samotné objednanie burgeru.
 
 Splnenie požiadavok:
 -	Práca s mapou: Výber prevádzky z ktorej si zákazník objednáva
