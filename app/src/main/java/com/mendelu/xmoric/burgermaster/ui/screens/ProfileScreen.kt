@@ -1,9 +1,6 @@
 package com.mendelu.xmoric.burgermaster.ui.screens
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -11,17 +8,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.OffsetMapping
-import androidx.compose.ui.text.input.TextFieldValue
-import androidx.compose.ui.text.input.TransformedText
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mendelu.xmoric.burgermaster.navigation.INavigationRouter
@@ -37,6 +27,8 @@ fun ProfileScreen(navigation: INavigationRouter) {
     var city by rememberSaveable { mutableStateOf("") }
     var state by rememberSaveable { mutableStateOf("") }
     var cardNumber by rememberSaveable { mutableStateOf("") }
+    var expiration by remember { mutableStateOf("") }
+    var securityCode by remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier
@@ -52,7 +44,7 @@ fun ProfileScreen(navigation: INavigationRouter) {
             fontFamily = FontFamily.SansSerif,
             fontSize = 20.sp
         )
-        Row() {
+        Row {
             TextField(
                 value = fName,
                 onValueChange = { fName = it},
@@ -76,7 +68,7 @@ fun ProfileScreen(navigation: INavigationRouter) {
                     containerColor = Color.Transparent
                 ),
                 modifier = Modifier
-                    .width(150.dp)
+                    .fillMaxWidth()
             )
         }
         TextField(
@@ -91,7 +83,7 @@ fun ProfileScreen(navigation: INavigationRouter) {
             modifier = Modifier
                 .fillMaxWidth()
         )
-        Row() {
+        Row {
             TextField(
                 value = zip,
                 onValueChange = { zip = it},
@@ -129,56 +121,136 @@ fun ProfileScreen(navigation: INavigationRouter) {
                     containerColor = Color.Transparent
                 ),
                 modifier = Modifier
-                    .width(80.dp)
+                    .fillMaxWidth()
             )
         }
-        BasicTextField(
-            value = cardNumber,
-            onValueChange = { cardNumber = it.take(16) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            visualTransformation = { creditCardFilter(it) }
+        Spacer(modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp))
+        Text(
+            text = "Financial information",
+            modifier = Modifier.padding(top = 8.dp, start = 8.dp),
+            fontWeight = FontWeight.Bold,
+            fontFamily = FontFamily.SansSerif,
+            fontSize = 20.sp
         )
+        Spacer(modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp))
+        TextField(
+            value = cardNumber,
+            visualTransformation = CardNumberMask("-"),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            onValueChange = {
+                if (it.length <= 16) cardNumber = it
+            },
+            label = { Text("Card number") },
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = Color.Black,
+                containerColor = Color.Transparent
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+        )
+        Row {
+            TextField(
+                value = expiration,
+                visualTransformation = ExpirationDateMask(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                onValueChange = {
+                    if (it.length <= 4) expiration = it
+                },
+                label = { Text("Expiry date") },
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color.Black,
+                    containerColor = Color.Transparent
+                ),
+                modifier = Modifier
+                    .width(230.dp)
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            TextField(
+                value = securityCode,
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                onValueChange = {
+                    if (it.length <= 3) securityCode = it
+                },
+                label = { Text("Security code") },
+                colors = TextFieldDefaults.textFieldColors(
+                    textColor = Color.Black,
+                    containerColor = Color.Transparent
+                ),
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+        }
     }
 }
 
-fun creditCardFilter(text: AnnotatedString): TransformedText {
-    val trimmed = if (text.text.length >= 16) text.text.substring(0..15) else text.text
+class ExpirationDateMask : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        return makeExpirationFilter(text)
+    }
 
-    val mask = "1234  5678  1234  5678"
-
-    val annotatedString = AnnotatedString.Builder().run {
+    private fun makeExpirationFilter(text: AnnotatedString): TransformedText {
+        // format: XX/XX
+        val trimmed = if (text.text.length >= 4) text.text.substring(0..3) else text.text
+        var out = ""
         for (i in trimmed.indices) {
-            append(trimmed[i])
-            if (i % 4 == 3 && i != 15) {
-                append("  ")
+            out += trimmed[i]
+            if (i == 1) out += "/"
+        }
+
+        val offsetMapping = object : OffsetMapping {
+            override fun originalToTransformed(offset: Int): Int {
+                if (offset <= 1) return offset
+                if (offset <= 4) return offset + 1
+                return 5
+            }
+
+            override fun transformedToOriginal(offset: Int): Int {
+                if (offset <= 2) return offset
+                if (offset <= 5) return offset - 1
+                return 4
             }
         }
-        pushStyle(SpanStyle(color = Color.LightGray))
-        append(mask.takeLast(mask.length - length))
-        toAnnotatedString()
+
+        return TransformedText(AnnotatedString(out), offsetMapping)
     }
-
-    val creditCardOffsetTranslator = object : OffsetMapping {
-        override fun originalToTransformed(offset: Int): Int {
-            if (offset <= 3) return offset
-            if (offset <= 7) return offset + 2
-            if (offset <= 11) return offset + 4
-            if (offset <= 16) return offset + 6
-            return 22
-        }
-
-        override fun transformedToOriginal(offset: Int): Int {
-            if (offset <= 4) return offset
-            if (offset <= 9) return offset - 2
-            if (offset <= 14) return offset - 4
-            if (offset <= 19) return offset - 6
-            return 16
-        }
-    }
-
-    return TransformedText(annotatedString, creditCardOffsetTranslator)
 }
 
+class CardNumberMask(private val separator: String = " ") : VisualTransformation {
+    override fun filter(text: AnnotatedString): TransformedText {
+        return makeCardNumberFilter(text, separator)
+    }
+
+    private fun makeCardNumberFilter(text: AnnotatedString, separator: String): TransformedText {
+        // format: XXXX XXXX XXXX XXXX by default
+        val trimmed = if (text.text.length >= 16) text.text.substring(0..15) else text.text
+        var out = ""
+        for (i in trimmed.indices) {
+            out += trimmed[i]
+            if (i == 3 || i == 7 || i == 11) out += separator
+        }
+
+        val offsetMapping = object : OffsetMapping {
+            override fun originalToTransformed(offset: Int): Int {
+                return if (offset <= 3) offset
+                else if (offset <= 7) offset + 1
+                else if (offset <= 11) offset + 2
+                else if (offset <= 16) offset + 3
+                else 19
+            }
+
+            override fun transformedToOriginal(offset: Int): Int {
+                return if (offset <= 4) offset
+                else if (offset <= 9) offset - 1
+                else if (offset <= 14) offset - 2
+                else if (offset <= 19) offset - 3
+                else 16
+            }
+        }
+
+        return TransformedText(AnnotatedString(out), offsetMapping)
+    }
+}
 
 //reusable
 //@OptIn(ExperimentalMaterial3Api::class)
