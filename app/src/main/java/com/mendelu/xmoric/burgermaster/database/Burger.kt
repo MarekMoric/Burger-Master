@@ -12,4 +12,20 @@ class Burger(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     var id: Long? = null
+
+    @ColumnInfo(name = "name")
+    var name: String? = "testing"
+
+    @ColumnInfo(name = "bread")
+    var bread: String? = null
+
+    @ColumnInfo(name = "meat")
+    var meat: String? = null
+
+    @ColumnInfo(name = "sauce")
+    var sauce: String? = null
+
+    @ColumnInfo(name = "extras")
+    var extras: String? = null
+
 }

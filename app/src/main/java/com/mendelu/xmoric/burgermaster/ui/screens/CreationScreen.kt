@@ -12,6 +12,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.decode.ImageSource
 import com.mendelu.xmoric.burgermaster.R
@@ -36,6 +37,24 @@ fun CreationScreen(navigation: INavigationRouter,
 //            textAlign = TextAlign.Center,
 //            fontSize = 20.sp
 //        )
+
+    val creationScreenUIState: CreationScreenUIState? by viewModel._creationScreenUIState.collectAsState()
+
+    var burgerErrorMessage: String by rememberSaveable{ mutableStateOf("")}
+
+    creationScreenUIState?.let {
+        when(it){
+            CreationScreenUIState.Default -> {
+
+            }
+            is CreationScreenUIState.TaskError -> {
+                burgerErrorMessage = stringResource(id = it.error)
+            }
+            CreationScreenUIState.BurgerSaved -> {
+                LaunchedEffect(it){navigation.navigateToList()}
+            }
+        }
+    }
 
     val breadTypes = listOf("White", "Dark", "Rustical")
     val meatTypes = listOf("1/2", "1x", "2x", "3x")
@@ -73,7 +92,7 @@ fun CreationScreen(navigation: INavigationRouter,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { viewModel.saveBurger() },
                 shape = RoundedCornerShape(40),
                 modifier = Modifier.padding(start = 8.dp),
                 colors = ButtonDefaults.buttonColors(
@@ -82,7 +101,7 @@ fun CreationScreen(navigation: INavigationRouter,
                 content = { Text(text = "Save") }
             )
             Button(
-                onClick = { /*TODO*/ },
+                onClick = { navigation.navigateToList() },
                 shape = RoundedCornerShape(40),
                 modifier = Modifier.padding(end = 8.dp),
                 colors = ButtonDefaults.buttonColors(
