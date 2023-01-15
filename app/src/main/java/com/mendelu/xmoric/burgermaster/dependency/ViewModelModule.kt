@@ -8,7 +8,7 @@ import org.koin.dsl.module
 val viewModelModule = module {
     // for screens
     //todo dont forget get
-    viewModel { ListScreenViewModel() }
+    viewModel { ListScreenViewModel(get()) }
     viewModel { CreationScreenViewModel(get()) }
     viewModel { DetailScreenViewModel() }
     viewModel { ProfileScreenViewModel() }

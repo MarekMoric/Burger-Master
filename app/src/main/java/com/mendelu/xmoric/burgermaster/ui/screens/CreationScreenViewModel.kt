@@ -30,8 +30,8 @@ class CreationScreenViewModel(private val burgerRepository: IBurgerLocalReposito
             _creationScreenUIState.value = CreationScreenUIState.TaskError(-666)
         }else{
             launch {
-//                if (taskId != null) {
-//                    tasksRepository.update(task)
+//                if (burgerId != null) {
+//                    burgerRepository.update(burger)
 //                }else{
                 Log.d("burger properties", burger.bread!! + burger.meat!! + burger.sauce + burger.extras )
                     burgerRepository.insert(burger)

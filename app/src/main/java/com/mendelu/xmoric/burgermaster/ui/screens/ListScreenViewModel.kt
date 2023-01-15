@@ -1,8 +1,23 @@
 package com.mendelu.xmoric.burgermaster.ui.screens
 
+import com.mendelu.xmoric.burgermaster.database.IBurgerLocalRepository
 import com.mendelu.xmoric.ukol2.architecture.BaseViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
-class ListScreenViewModel(): BaseViewModel() {
+class ListScreenViewModel(private val burgersRepository: IBurgerLocalRepository): BaseViewModel() {
 
+    private val _listUIState
+            = MutableStateFlow<ListUIState>(ListUIState.Default)
+
+    val listUIState: StateFlow<ListUIState> = _listUIState
+    fun loadBurgers() {
+        launch {
+            burgersRepository.getAll().collect{
+                _listUIState.value = ListUIState.BurgersLoaded(it)
+            }
+        }
+    }
 
 }
