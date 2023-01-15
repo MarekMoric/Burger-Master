@@ -4,6 +4,7 @@ import android.graphics.drawable.Icon
 import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -58,18 +59,50 @@ fun CreationScreen(navigation: INavigationRouter) {
                 .height(200.dp)
                 .padding(start = 8.dp, end = 8.dp)
         )
+        Spacer(modifier = Modifier.padding(16.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Button(
+                onClick = { /*TODO*/ },
+                shape = RoundedCornerShape(40),
+                modifier = Modifier.padding(start = 8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Green, //todo Pridaj dark green do Color.kt, tato je hnusna
+                    contentColor = Color.White),
+                content = { Text(text = "Save") }
+            )
+            Button(
+                onClick = { /*TODO*/ },
+                shape = RoundedCornerShape(40),
+                modifier = Modifier.padding(end = 8.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Red,
+                    contentColor = Color.White),
+                content = { Text(text = "Discard") }
+            )
+        }
+        Button(
+            onClick = { /*TODO*/ },
+//            shape = RoundedCornerShape(40),
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
+            content = { Text(text = "Select a restaurant") }
+        )
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropdownList(content: List<String>, header: String, checkboxes: Boolean){
+fun DropdownList(content: List<String>, header: String, checkboxes: Boolean): String{
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(content[1]) }
     var checked: Boolean = false
     var icon: Int = 0
 
-    when (header) {
+    when (header) { //todo zmena na selectedOptionText a rozlisovat kazdu jednu volbu
         "Bread type" -> icon = R.drawable.burger_meat
         "Meat" -> icon =  R.drawable.burger_meat
         "Sauce" -> icon =  R.drawable.sauce
@@ -122,6 +155,7 @@ fun DropdownList(content: List<String>, header: String, checkboxes: Boolean){
             }
         }
     }
+    return selectedOptionText
 }
 
 
