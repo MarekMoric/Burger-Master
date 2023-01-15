@@ -2,6 +2,7 @@ package com.mendelu.xmoric.burgermaster.ui.screens
 
 import android.graphics.drawable.Icon
 import android.graphics.drawable.shapes.Shape
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,10 +16,12 @@ import androidx.compose.ui.unit.dp
 import coil.decode.ImageSource
 import com.mendelu.xmoric.burgermaster.R
 import com.mendelu.xmoric.burgermaster.navigation.INavigationRouter
+import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CreationScreen(navigation: INavigationRouter) {
+fun CreationScreen(navigation: INavigationRouter,
+                   viewModel: CreationScreenViewModel = getViewModel()) {
 //    Column(
 //        modifier = Modifier
 //            .fillMaxSize()
@@ -42,10 +45,15 @@ fun CreationScreen(navigation: INavigationRouter) {
 
 
     Column {
-        DropdownList(content = breadTypes, header = "Bread type", false)
-        DropdownList(content = meatTypes, header = "Meat", false)
-        DropdownList(content = sauceTypes, header = "Sauce", true)
-        DropdownList(content = extrasTypes, header = "Extras", true)
+        DropdownList(content = breadTypes, header = "Bread type", false, viewModel)
+        Log.d("vypis bread", viewModel.bread)
+        DropdownList(content = meatTypes, header = "Meat", false, viewModel)
+        Log.d("vypis meat", viewModel.meat)
+        DropdownList(content = sauceTypes, header = "Sauce", true, viewModel)
+        Log.d("vypis sauce", viewModel.sauce.toString())
+        DropdownList(content = extrasTypes, header = "Extras", true, viewModel)
+        Log.d("vypis extras", viewModel.extras.toString())
+
         OutlinedTextField(
             value = description,
             onValueChange = { description = it},
@@ -96,7 +104,7 @@ fun CreationScreen(navigation: INavigationRouter) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DropdownList(content: List<String>, header: String, checkboxes: Boolean): String{
+fun DropdownList(content: List<String>, header: String, checkboxes: Boolean, viewModel: CreationScreenViewModel): String{
     var expanded by remember { mutableStateOf(false) }
     var selectedOptionText by remember { mutableStateOf(content[1]) }
     var checked: Boolean = false
@@ -122,6 +130,7 @@ fun DropdownList(content: List<String>, header: String, checkboxes: Boolean): St
             value = selectedOptionText,
             onValueChange = {},
             label = { Text(header) },
+            maxLines = 1,
             leadingIcon = { Image(painterResource(
                 id = icon),
                 contentDescription = "",
@@ -148,11 +157,29 @@ fun DropdownList(content: List<String>, header: String, checkboxes: Boolean): St
                     },
                     trailingIcon = {
                         if (checkboxes) {
-//                        Checkbox(checked = checked, onCheckedChange = { selectedOptionText += ", $item"; checked = true }) }
-                        Text("Add Extra", style = MaterialTheme.typography.bodySmall) } //vymen za button, mas tam totizto onlick ktory potrebujes
+                            Button(
+                                enabled = !selectedOptionText.contains(item),
+                                onClick = { selectedOptionText += ", $item" },
+                                shape = RoundedCornerShape(40),
+                                modifier = Modifier.padding(end = 8.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.Transparent,
+                                    contentColor = Color.DarkGray),
+                                content = { Text(text = "Add", style = MaterialTheme.typography.bodySmall) },
+                            )
+                        }
                      }
                 )
             }
+        }
+    }
+    when (header) { //todo zmena na selectedOptionText a rozlisovat kazdu jednu volbu
+        "Bread type" -> viewModel.bread = selectedOptionText
+        "Meat" -> viewModel.meat = selectedOptionText
+        "Sauce" -> viewModel.sauce[0] = selectedOptionText
+        "Extras" -> viewModel.extras[0] = selectedOptionText
+        else -> {
+            Text(text = "else branch")
         }
     }
     return selectedOptionText
