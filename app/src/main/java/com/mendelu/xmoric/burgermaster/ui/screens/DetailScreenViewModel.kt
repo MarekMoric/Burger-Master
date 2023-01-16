@@ -11,6 +11,11 @@ class DetailScreenViewModel(private val burgersRepository: IBurgerLocalRepositor
 
     var burgerId: Long? = null
     var burger: Burger = Burger("")
+    var bread: String = ""
+    var meat: String = ""
+    var sauce = mutableListOf("")
+    var extras = mutableListOf("")
+
 
     private val _detailUIState
             = MutableStateFlow<DetailUIState>(DetailUIState.Default)

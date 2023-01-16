@@ -27,7 +27,7 @@ class CreationScreenViewModel(private val burgerRepository: IBurgerLocalReposito
         burger.extras = extras[0]
         if(burger.bread.isNullOrBlank() && burger.meat.isNullOrBlank() && burger.sauce.isNullOrBlank() && burger.extras.isNullOrBlank()){
             Log.d("burger properties err", burger.bread!! + burger.meat!! + burger.sauce + burger.extras )
-            _creationScreenUIState.value = CreationScreenUIState.TaskError(-666)
+            _creationScreenUIState.value = CreationScreenUIState.BurgerError(-666)
         }else{
             launch {
 //                if (burgerId != null) {
