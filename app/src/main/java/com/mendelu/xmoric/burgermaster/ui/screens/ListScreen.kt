@@ -1,6 +1,7 @@
 package com.mendelu.xmoric.burgermaster.ui.screens
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -116,8 +117,8 @@ fun BurgerRow(burger: Burger,
             color = Color.White,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(60.dp)
-                .border(1.dp, color = Color.DarkGray, shape = RoundedCornerShape(10))
+                .height(65.dp)
+//                .border(1.dp, color = Color.DarkGray, shape = RoundedCornerShape(10))
         ) {
 
             Row(
@@ -125,15 +126,7 @@ fun BurgerRow(burger: Burger,
                 horizontalArrangement = Arrangement.Start
             ) {
 
-
-                Icon(
-                    painter = painterResource(id = R.drawable.burger_icon),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .padding(start = 20.dp)
-                        .width(40.dp)
-                        .height(40.dp)
-                )
+                Image(painter = painterResource(id = R.drawable.burger_icon), contentDescription = "")
 
                 Column(
                     verticalArrangement = Arrangement.Center,
