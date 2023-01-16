@@ -10,7 +10,7 @@ val viewModelModule = module {
     //todo dont forget get
     viewModel { ListScreenViewModel(get()) }
     viewModel { CreationScreenViewModel(get()) }
-    viewModel { DetailScreenViewModel() }
+    viewModel { DetailScreenViewModel(get()) }
     viewModel { ProfileScreenViewModel() }
     viewModel { NutritionScreenViewModel() }
     viewModel { MapScreenViewModel() }

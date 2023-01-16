@@ -5,9 +5,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.mendelu.xmoric.burgermaster.ui.screens.*
 
 
@@ -35,8 +37,17 @@ fun NavGraph(
             CreationScreen(navigation = navigation)
         }
 
-        composable(Destination.DetailScreen.route) {
-            DetailScreen(navigation = navigation)
+        composable(Destination.DetailScreen.route + "/{id}",
+            arguments = listOf(navArgument("id"){
+                type = NavType.LongType
+                defaultValue = -1L
+            })
+        ){
+            val id = it.arguments?.getLong("id")
+            DetailScreen(
+                navigation = navigation,
+                id = if (id != -1L) id else null
+            )
         }
 
         composable(Destination.ProfileScreen.route) {

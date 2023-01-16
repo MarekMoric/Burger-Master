@@ -31,7 +31,7 @@ class NavigationRouterImpl(private val navController: NavController) : INavigati
         navController.navigate(Destination.ARScreen.route)
     }
 
-    override fun navigateToDetail() {
-        navController.navigate(Destination.DetailScreen.route)
+    override fun navigateToDetail(id: Long?) {
+        navController.navigate(Destination.DetailScreen.route + "/" + id)
     }
 }

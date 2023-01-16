@@ -10,5 +10,5 @@ interface INavigationRouter {
     fun navigateToProfile()
     fun navigateToNutrition()
     fun navigateToAR()
-    fun navigateToDetail()
+    fun navigateToDetail(id: Long?)
 }
