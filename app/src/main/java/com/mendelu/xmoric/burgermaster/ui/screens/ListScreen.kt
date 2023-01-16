@@ -11,9 +11,7 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -30,7 +28,9 @@ import com.mendelu.xmoric.burgermaster.database.Burger
 import com.mendelu.xmoric.burgermaster.navigation.INavigationRouter
 import org.koin.androidx.compose.getViewModel
 import com.mendelu.xmoric.burgermaster.R
+import com.mendelu.xmoric.burgermaster.ui.theme.LightGreen
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen(navigation: INavigationRouter,
                viewModel: ListScreenViewModel = getViewModel()) {
@@ -74,15 +74,20 @@ fun ListScreen(navigation: INavigationRouter,
             ListScreenContent(navigation = navigation, burgers = burgers)
         },
         topBar = {
-            Text(text = "Burger List")
+            TopAppBar(
+                title = { Text("Your burgers") },
+                modifier = Modifier.fillMaxWidth(),
+            )
         }
     )
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreenContent(navigation: INavigationRouter,
                           burgers: List<Burger>) {
+
     LazyColumn{
         burgers.forEach{
             item(key = it.id){
@@ -106,18 +111,10 @@ fun BurgerRow(burger: Burger,
         .clickable { onRowClick() },
         verticalAlignment = Alignment.CenterVertically)
     {
-
-//        Text(text = burger.name!!,
-//            style = MaterialTheme.typography.subtitle2,
-////            color = getBasicTextColor(),
-//            maxLines = 2,
-//            overflow = TextOverflow.Ellipsis)
-
         Surface(
             shape = RoundedCornerShape(5),
             color = Color.White,
             modifier = Modifier
-//                .padding(start = 16.dp, end = 16.dp, top = 16.dp)
                 .fillMaxWidth()
                 .height(60.dp)
                 .border(1.dp, color = Color.DarkGray, shape = RoundedCornerShape(10))

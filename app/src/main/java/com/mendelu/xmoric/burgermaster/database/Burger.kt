@@ -14,7 +14,7 @@ class Burger(
     var id: Long? = null
 
     @ColumnInfo(name = "name")
-    var name: String? = "testing"
+    var name: String? = "Burger"
 
     @ColumnInfo(name = "bread")
     var bread: String? = null

@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 
 class CreationScreenViewModel(private val burgerRepository: IBurgerLocalRepository): BaseViewModel() {
 
+    var name: String = ""
     var bread: String = ""
     var meat: String = ""
     var sauce = mutableListOf("")
@@ -21,6 +22,10 @@ class CreationScreenViewModel(private val burgerRepository: IBurgerLocalReposito
             = MutableStateFlow<CreationScreenUIState>(CreationScreenUIState.Default)
 
     fun saveBurger() {
+        if (name == ""){
+            name = "Burger"
+        }
+        burger.name = name
         burger.bread = bread
         burger.meat = meat
         burger.sauce = sauce[0]

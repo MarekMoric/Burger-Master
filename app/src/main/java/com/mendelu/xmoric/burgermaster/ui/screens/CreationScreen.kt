@@ -59,6 +59,7 @@ fun CreationScreen(navigation: INavigationRouter,
     val sauceTypes = listOf("Mustard", "Ketchup", "Bacon")
     val extrasTypes = listOf("Lettuce", "Grilled Bacon", "Tomato", "Pickles")
     var description by rememberSaveable { mutableStateOf("") }
+    var name by rememberSaveable { mutableStateOf(viewModel.name) }
 
 
     Column {
@@ -75,6 +76,22 @@ fun CreationScreen(navigation: INavigationRouter,
                     content = { Text(text = "Save", style = MaterialTheme.typography.bodySmall) },
                 )
             }
+        )
+        TextField(
+            value = name,
+            onValueChange = {
+                name = it
+                viewModel.name = name
+                            },
+            singleLine = true,
+            label = { Text(text = "Name your burger")},
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = Color.Black,
+                containerColor = Color.Transparent
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 8.dp, end = 8.dp)
         )
 
         DropdownList(content = breadTypes, header = "Bread type", false, viewModel)
@@ -96,7 +113,7 @@ fun CreationScreen(navigation: INavigationRouter,
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(150.dp)
                 .padding(start = 8.dp, end = 8.dp)
         )
         Spacer(modifier = Modifier.padding(16.dp))
@@ -194,7 +211,7 @@ private fun DropdownList(content: List<String>, header: String, checkboxes: Bool
             }
         }
     }
-    when (header) { //todo zmena na selectedOptionText a rozlisovat kazdu jednu volbu
+    when (header) {
         "Bread type" -> viewModel.bread = selectedOptionText
         "Meat" -> viewModel.meat = selectedOptionText
         "Sauce" -> viewModel.sauce[0] = selectedOptionText
