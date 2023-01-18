@@ -28,7 +28,11 @@ class BurgerMasterApplication : Application() {
                 daoModule,
                 repositoryModule,
                 viewModelModule,
-                dataStoreModule
+                dataStoreModule,
+                apiModule,
+                retrofitModule,
+                remoteRepositoryModule,
+
             ))
         }
     }

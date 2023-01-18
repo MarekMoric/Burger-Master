@@ -13,7 +13,7 @@ val viewModelModule = module {
     viewModel { DetailScreenViewModel(get()) }
     viewModel { ProfileScreenViewModel() }
     viewModel { NutritionScreenViewModel() }
-    viewModel { MapScreenViewModel() }
+    viewModel { MapScreenViewModel(get()) }
 
     // For the saved state handle
     fun provideSavedStateHandle(): SavedStateHandle{
