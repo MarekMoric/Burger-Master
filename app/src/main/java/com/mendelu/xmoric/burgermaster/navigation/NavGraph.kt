@@ -59,7 +59,9 @@ fun NavGraph(
         }
 
         composable(Destination.ARScreen.route) {
-            ARScreen(navigation = navigation)
+            ARScreen(
+//                navigation = navigation
+            )
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.mendelu.xmoric.burgermaster.ui.screens
 
+import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.R
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,12 +26,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
+import com.mendelu.xmoric.burgermaster.MainActivity
 import com.mendelu.xmoric.burgermaster.database.Burger
 import com.mendelu.xmoric.burgermaster.navigation.INavigationRouter
 import com.mendelu.xmoric.burgermaster.ui.elements.BackArrowScreen
 import com.mendelu.xmoric.burgermaster.ui.elements.LoadingScreen
 import org.koin.androidx.compose.getViewModel
 import com.mendelu.xmoric.burgermaster.R.drawable
+import kotlin.coroutines.coroutineContext
 
 @Composable
 fun DetailScreen(navigation: INavigationRouter,
@@ -155,7 +160,10 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
                     content = { Text(text = "Nutrition Values") }
                 )
                 Button(
-                    onClick = { navigation.navigateToAR() },
+                    onClick = {
+                        navigation.navigateToAR()
+//                        startActivity(Intent(LocalContext.current, ARScreen::class.java))
+                              },
                     shape = RoundedCornerShape(40),
                     modifier = Modifier.padding(end = 8.dp),
 //                    colors = ButtonDefaults.buttonColors(
