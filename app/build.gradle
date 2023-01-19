@@ -117,5 +117,8 @@ dependencies {
     implementation "com.gorisse.thomas.sceneform:sceneform:1.21.0"
     implementation "androidx.compose.ui:ui-viewbinding:$compose_version"
 
+    // Livedata
+    implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
+
 
 }

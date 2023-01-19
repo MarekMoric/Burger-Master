@@ -14,6 +14,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,30 +31,27 @@ import com.mendelu.xmoric.burgermaster.navigation.INavigationRouter
 import org.koin.androidx.compose.getViewModel
 import com.mendelu.xmoric.burgermaster.R
 import com.mendelu.xmoric.burgermaster.ui.theme.LightGreen
+import cz.mendelu.pef.compose.petstore.constants.Constants
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListScreen(navigation: INavigationRouter,
                viewModel: ListScreenViewModel = getViewModel()) {
 
-//    Column(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .background(colorResource(id = R.color.vector_tint_theme_color))
-//            .wrapContentSize(Alignment.Center)
-//    ) {
-//        Text(
-//            text = "Home Screen/List of Burgers",
-//            fontWeight = FontWeight.Bold,
-//            color = Color.White,
-//            modifier = Modifier.align(Alignment.CenterHorizontally),
-//            textAlign = TextAlign.Center,
-//            fontSize = 20.sp
-//        )
-//    }
-
     val burgers = remember{ mutableListOf<Burger>()}
     val taskListUIState: ListUIState? by viewModel.listUIState.collectAsState()
+
+    val onReturnRefresh = navigation.getNavController().currentBackStackEntry?.savedStateHandle
+        ?.getLiveData<Boolean>(Constants.REFRESH_SCREEN)
+        ?.observeAsState() //refresh ked sa vratim z deletu napriklad
+
+    onReturnRefresh?.value?.let {
+        if (it) {
+            LaunchedEffect(it) {
+                viewModel.loadBurgers()
+            }
+        }
+    }
 
     taskListUIState?.let {
         when(it){

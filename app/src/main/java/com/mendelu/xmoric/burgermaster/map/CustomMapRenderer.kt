@@ -19,7 +19,8 @@ class CustomMapRenderer(
     override fun onBeforeClusterItemRendered(item: Store, markerOptions: MarkerOptions) {
         super.onBeforeClusterItemRendered(item, markerOptions)
         when(item.type){
-            "food" -> markerOptions.icon(
+            "food" ->
+                markerOptions.icon(
                 BitmapDescriptorFactory.fromBitmap(
                 MarkerUtil.createMarkerIconFromResource(context, R.drawable.ic_food)
             ))

@@ -14,5 +14,4 @@ interface MapAPI {
     @Headers("Content-Type: application/json")
     @GET("brno")
     suspend fun getBrnoBoundaries(): Response<List<Coordinates>>
-//    suspend fun getBrnoBoundaries(): Response<Coordinates>
 }
