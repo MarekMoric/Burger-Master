@@ -80,7 +80,7 @@ class ARScreen : AppCompatActivity(), BaseArFragment.OnTapArPlaneListener,
         arFragment.setOnSceneChangeListener(this)
 
         lifecycleScope.launch {
-            loadModel("models/halloween.glb")
+            loadModel("models/halloween.glb") //todo fix na burger
         }
 
     }

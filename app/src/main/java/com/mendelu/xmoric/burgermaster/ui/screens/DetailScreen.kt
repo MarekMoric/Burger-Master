@@ -121,6 +121,8 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
     val extrasTypes = listOf("Lettuce", "Grilled Bacon", "Tomato", "Pickles")
     var description by rememberSaveable { mutableStateOf("") }
 
+    var context = LocalContext.current
+
     if(isNotLoading){
         Column {
             DropdownList(content = breadTypes, header = "Bread type", false, viewModel)
@@ -155,12 +157,13 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
                     shape = RoundedCornerShape(40),
                     modifier = Modifier.padding(start = 8.dp),
 //                    colors = ButtonDefaults.buttonColors(
-//                        containerColor = Color.Green, //todo Pridaj dark green do Color.kt, tato je hnusna
+//                        containerColor = Color.Green,
 //                        contentColor = Color.White),
                     content = { Text(text = "Nutrition Values") }
                 )
                 Button(
                     onClick = {
+                        context.startActivity(Intent(context, ARScreen::class.java))
                         navigation.navigateToAR()
 //                        startActivity(Intent(LocalContext.current, ARScreen::class.java))
                               },

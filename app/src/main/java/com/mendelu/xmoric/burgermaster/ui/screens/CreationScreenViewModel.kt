@@ -1,6 +1,7 @@
 package com.mendelu.xmoric.burgermaster.ui.screens
 
 import android.util.Log
+import androidx.compose.ui.platform.LocalContext
 import com.mendelu.xmoric.burgermaster.database.Burger
 import com.mendelu.xmoric.burgermaster.database.IBurgerLocalRepository
 import com.mendelu.xmoric.ukol2.architecture.BaseViewModel
