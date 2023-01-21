@@ -15,7 +15,8 @@ android {
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "com.mendelu.xmoric.burgermaster.CustomTestRunner"
         vectorDrawables {
             useSupportLibrary true
         }
@@ -120,5 +121,11 @@ dependencies {
     // Livedata
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
 
-
+// Core library
+    androidTestImplementation("androidx.test:core:1.5.0")
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+// Unit testing - coroutines
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    testImplementation "android.arch.core:core-testing:1.1.1"
 }

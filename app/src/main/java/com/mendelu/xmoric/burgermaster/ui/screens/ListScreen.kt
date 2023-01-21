@@ -19,6 +19,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -87,10 +88,12 @@ fun ListScreen(navigation: INavigationRouter,
 fun ListScreenContent(navigation: INavigationRouter,
                           burgers: List<Burger>) {
 
-    LazyColumn{
+    LazyColumn(modifier = Modifier.testTag("BurgerTagList")
+    ){
         burgers.forEach{
             item(key = it.id){
-                BurgerRow(burger = it,
+                BurgerRow(
+                    burger = it,
                     onRowClick = {
                         navigation.navigateToDetail(it.id)
                                  Log.d("IDcko", it.id.toString())
@@ -107,7 +110,8 @@ fun BurgerRow(burger: Burger,
 
     Row (modifier = Modifier
         .fillMaxWidth()
-        .clickable { onRowClick() },
+        .clickable { onRowClick() }
+        .testTag("Burger Row${burger.id}"),
         verticalAlignment = Alignment.CenterVertically)
     {
         Surface(

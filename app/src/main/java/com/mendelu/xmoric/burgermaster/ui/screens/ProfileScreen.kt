@@ -8,6 +8,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -55,6 +56,7 @@ fun ProfileScreen(navigation: INavigationRouter) {
                     containerColor = Color.Transparent
                 ),
                 modifier = Modifier
+                    .testTag("Profile Name")
                     .width(200.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
