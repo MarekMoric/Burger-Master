@@ -1,13 +1,17 @@
 package com.mendelu.xmoric.burgermaster.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
@@ -15,11 +19,27 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.preferences.core.edit
+import com.mendelu.xmoric.burgermaster.datastore.storeProfileInfo
+import com.mendelu.xmoric.burgermaster.datastore.storeProfileInfo.Companion.CITY_KEY
+import com.mendelu.xmoric.burgermaster.datastore.storeProfileInfo.Companion.STATE_KEY
+import com.mendelu.xmoric.burgermaster.datastore.storeProfileInfo.Companion.STREET_KEY
+import com.mendelu.xmoric.burgermaster.datastore.storeProfileInfo.Companion.USER_NAME_KEY
+import com.mendelu.xmoric.burgermaster.datastore.storeProfileInfo.Companion.USER_SURNAME_KEY
+import com.mendelu.xmoric.burgermaster.datastore.storeProfileInfo.Companion.ZIP_KEY
+import com.mendelu.xmoric.burgermaster.datastore.storeProfileInfo.Companion.dataStore
 import com.mendelu.xmoric.burgermaster.navigation.INavigationRouter
+import com.mendelu.xmoric.burgermaster.ui.theme.LightBrown
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(navigation: INavigationRouter) {
+
+    //datastore things
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val datastore = storeProfileInfo(context)
     
     var fName by rememberSaveable { mutableStateOf("") }
     var lName by rememberSaveable { mutableStateOf("") }
@@ -31,10 +51,36 @@ fun ProfileScreen(navigation: INavigationRouter) {
     var expiration by remember { mutableStateOf("") }
     var securityCode by remember { mutableStateOf("") }
 
+    var savedName = datastore.getName.collectAsState(initial = "")
+    var savedSurname = datastore.getSurname.collectAsState(initial = "")
+    var savedStreet = datastore.getStreet.collectAsState(initial = "")
+    var savedZip = datastore.getZip.collectAsState(initial = "")
+    var savedCity = datastore.getCity.collectAsState(initial = "")
+    var savedState = datastore.getState.collectAsState(initial = "")
+
+    if (savedName.value!! != ""){
+        fName = savedName.value!!
+    }
+    if (savedSurname.value!! != ""){
+        lName = savedSurname.value!!
+    }
+    if (savedStreet.value!! != ""){
+        street = savedStreet.value!!
+    }
+    if (savedZip.value!! != ""){
+        zip = savedZip.value!!
+    }
+    if (savedCity.value != ""){
+        city = savedCity.value!!
+    }
+    if (savedState.value!! != ""){
+        state = savedState.value!!
+    }
+
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-//            .background(colorResource(id = R.color.vector_tint_theme_color))
             .wrapContentSize(Alignment.TopStart)
             .padding(8.dp)
     ) {
@@ -55,6 +101,21 @@ fun ProfileScreen(navigation: INavigationRouter) {
                     textColor = Color.Black,
                     containerColor = Color.Transparent
                 ),
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Clear,
+                        contentDescription = "clear text",
+                        modifier = Modifier
+                            .clickable {
+                                scope.launch {
+                                    context.dataStore.edit {
+                                        it.remove(USER_NAME_KEY)
+                                    }
+                                }
+                                fName = "";
+                            }
+                    )
+                },
                 modifier = Modifier
                     .testTag("Profile Name")
                     .width(200.dp)
@@ -69,6 +130,21 @@ fun ProfileScreen(navigation: INavigationRouter) {
                     textColor = Color.Black,
                     containerColor = Color.Transparent
                 ),
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Clear,
+                        contentDescription = "clear text",
+                        modifier = Modifier
+                            .clickable {
+                                scope.launch {
+                                    context.dataStore.edit {
+                                        it.remove(USER_SURNAME_KEY)
+                                    }
+                                }
+                                lName = "";
+                            }
+                    )
+                },
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -82,6 +158,21 @@ fun ProfileScreen(navigation: INavigationRouter) {
                 textColor = Color.Black,
                 containerColor = Color.Transparent
             ),
+            trailingIcon = {
+                Icon(
+                    Icons.Default.Clear,
+                    contentDescription = "clear text",
+                    modifier = Modifier
+                        .clickable {
+                            scope.launch {
+                                context.dataStore.edit {
+                                    it.remove(STREET_KEY)
+                                }
+                            }
+                            street = "";
+                        }
+                )
+            },
             modifier = Modifier
                 .fillMaxWidth()
         )
@@ -95,9 +186,24 @@ fun ProfileScreen(navigation: INavigationRouter) {
                     textColor = Color.Black,
                     containerColor = Color.Transparent
                 ),
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Clear,
+                        contentDescription = "clear text",
+                        modifier = Modifier
+                            .clickable {
+                                scope.launch {
+                                    context.dataStore.edit {
+                                        it.remove(ZIP_KEY)
+                                    }
+                                }
+                                zip = "";
+                            }
+                    )
+                },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                 modifier = Modifier
-                    .width(80.dp)
+                    .width(100.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             TextField(
@@ -109,8 +215,23 @@ fun ProfileScreen(navigation: INavigationRouter) {
                     textColor = Color.Black,
                     containerColor = Color.Transparent
                 ),
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Clear,
+                        contentDescription = "clear text",
+                        modifier = Modifier
+                            .clickable {
+                                scope.launch {
+                                    context.dataStore.edit {
+                                        it.remove(CITY_KEY)
+                                    }
+                                }
+                                city = "";
+                            }
+                    )
+                },
                 modifier = Modifier
-                    .width(150.dp)
+                    .width(140.dp)
             )
             Spacer(modifier = Modifier.width(8.dp))
             TextField(
@@ -122,11 +243,28 @@ fun ProfileScreen(navigation: INavigationRouter) {
                     textColor = Color.Black,
                     containerColor = Color.Transparent
                 ),
+                trailingIcon = {
+                    Icon(
+                        Icons.Default.Clear,
+                        contentDescription = "clear text",
+                        modifier = Modifier
+                            .clickable {
+                                scope.launch {
+                                    context.dataStore.edit {
+                                        it.remove(STATE_KEY)
+                                    }
+                                }
+                                state = "";
+                            }
+                    )
+                },
                 modifier = Modifier
                     .fillMaxWidth()
             )
         }
-        Spacer(modifier = Modifier.fillMaxWidth().padding(bottom = 24.dp))
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 24.dp))
         Text(
             text = "Financial information",
             modifier = Modifier.padding(top = 8.dp, start = 8.dp),
@@ -134,7 +272,9 @@ fun ProfileScreen(navigation: INavigationRouter) {
             fontFamily = FontFamily.SansSerif,
             fontSize = 20.sp
         )
-        Spacer(modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp))
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 16.dp))
         TextField(
             value = cardNumber,
             visualTransformation = CardNumberMask("-"),
@@ -183,6 +323,26 @@ fun ProfileScreen(navigation: INavigationRouter) {
                     .fillMaxWidth()
             )
         }
+        Spacer(modifier = Modifier.padding(16.dp))
+        Button(
+            onClick = {
+                scope.launch {
+                    datastore.saveName(fName)
+                    datastore.saveSurname(lName)
+                    datastore.saveStreet(street)
+                    datastore.saveCity(city)
+                    datastore.saveZip(zip)
+                    datastore.saveState(state)
+                }
+            },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = LightBrown
+            ),
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxWidth(),
+            content = { Text(text = "Save profile info") }
+        )
     }
 }
 

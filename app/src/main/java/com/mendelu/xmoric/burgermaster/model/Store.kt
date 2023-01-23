@@ -11,7 +11,7 @@ class Store(
     var latitude: Double,
     var longitude: Double,
     var type: String,
-    var pice: Float
+    var price: Float
 
 ): Serializable, ClusterItem {
     override fun getPosition(): LatLng {

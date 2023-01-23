@@ -1,6 +1,7 @@
 package com.mendelu.xmoric.burgermaster.ui.screens
 
 import android.util.Log
+import android.widget.ScrollView
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -19,6 +20,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -33,6 +35,7 @@ import org.koin.androidx.compose.getViewModel
 import com.mendelu.xmoric.burgermaster.R
 import com.mendelu.xmoric.burgermaster.ui.theme.LightGreen
 import cz.mendelu.pef.compose.petstore.constants.Constants
+import kotlin.random.Random
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -96,7 +99,6 @@ fun ListScreenContent(navigation: INavigationRouter,
                     burger = it,
                     onRowClick = {
                         navigation.navigateToDetail(it.id)
-                                 Log.d("IDcko", it.id.toString())
                                  },
                 )
             }
@@ -119,8 +121,7 @@ fun BurgerRow(burger: Burger,
             color = Color.White,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(65.dp)
-//                .border(1.dp, color = Color.DarkGray, shape = RoundedCornerShape(10))
+                .height(100.dp)
         ) {
 
             Row(
@@ -138,14 +139,20 @@ fun BurgerRow(burger: Burger,
                     Text(
                         fontWeight = FontWeight.ExtraBold,
                         maxLines = 1,
-                        text = burger.name ?: "",
+                        text = burger.name ?: "Burger",
                         modifier = Modifier.padding(start = 16.dp)
                     )
 
                     Text(
                         fontWeight = FontWeight.Normal,
-                        maxLines = 1,
-                        text = "Average price 8.49€",
+                        maxLines = 2,
+                        text = "Ingedients: ${burger.extras}",
+                        modifier = Modifier.padding(start = 16.dp)
+                    )
+                    Text(
+                        fontWeight = FontWeight.Normal,
+                        maxLines = 2,
+                        text = "Sauce: ${burger.sauce}",
                         modifier = Modifier.padding(start = 16.dp)
                     )
                 }

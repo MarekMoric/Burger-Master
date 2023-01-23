@@ -1,5 +1,7 @@
 package com.mendelu.xmoric.burgermaster.ui.screens
 
+import android.widget.Toast
+import androidx.compose.animation.core.Transition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,33 +30,20 @@ import com.mendelu.xmoric.burgermaster.model.Brno
 import com.mendelu.xmoric.burgermaster.model.ScreenState
 import com.mendelu.xmoric.burgermaster.model.Store
 import com.mendelu.xmoric.burgermaster.navigation.INavigationRouter
+import com.mendelu.xmoric.burgermaster.ui.elements.BackArrowScreen
 import com.mendelu.xmoric.burgermaster.ui.elements.ErrorScreen
 import com.mendelu.xmoric.burgermaster.ui.elements.LoadingScreen
 import com.mendelu.xmoric.burgermaster.ui.theme.LightBrown
 import com.mendelu.xmoric.burgermaster.ui.theme.LightGreen
 import com.mendelu.xmoric.ukol2.map.CustomMapRenderer
+import kotlinx.coroutines.delay
 import org.koin.androidx.compose.getViewModel
+import kotlin.random.Random
 
 @Composable
 fun MapScreen(navigation: INavigationRouter,
               viewModel: MapScreenViewModel = getViewModel()
 ) {
-
-//    Column(
-//        modifier = Modifier
-//            .fillMaxSize()
-//            .background(colorResource(id = R.color.vector_tint_theme_color))
-//            .wrapContentSize(Alignment.Center)
-//    ) {
-//        Text(
-//            text = "Map Screen",
-//            fontWeight = FontWeight.Bold,
-//            color = Color.White,
-//            modifier = Modifier.align(Alignment.CenterHorizontally),
-//            textAlign = TextAlign.Center,
-//            fontSize = 20.sp
-//        )
-//    }
 
     val screenState: MutableState<ScreenState<Brno>> = rememberSaveable{
         mutableStateOf(ScreenState.Loading())
@@ -185,6 +174,7 @@ fun MapScreenContent(brno: Brno, navigation: INavigationRouter) {
 
 @Composable
 fun StoreDetail(marker: Marker, navigation: INavigationRouter) {
+
     ElevatedCard(modifier = Modifier
         .padding(bottom = 64.dp)
         .fillMaxWidth(0.5f)
@@ -195,17 +185,15 @@ fun StoreDetail(marker: Marker, navigation: INavigationRouter) {
         Text(text = marker.title!!,
             fontSize = 24.sp,
             style = MaterialTheme.typography.bodyLarge,
-            modifier = Modifier.padding(top = 16.dp, start = 28.dp),
+            modifier = Modifier.padding(top = 16.dp, start = 50.dp),
             textAlign = TextAlign.Center)
-        Text(text = marker.snippet!!,
-            fontSize = 16.sp,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(start = 32.dp),
-            textAlign = TextAlign.Center)
+
         Button(
-            onClick = { navigation.returnBack() },
+            onClick = {
+                navigation.navigateToList()
+                      },
             shape = RoundedCornerShape(100),
-            modifier = Modifier.padding(end = 8.dp),
+            modifier = Modifier.padding(start = 40.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = LightBrown,
                 contentColor = Color.DarkGray),
