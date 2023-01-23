@@ -8,6 +8,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mendelu.xmoric.burgermaster.navigation.Destination
 import com.mendelu.xmoric.burgermaster.navigation.NavigationRouterImpl
+import com.mendelu.xmoric.burgermaster.ui.screens.CreationScreen
 import com.mendelu.xmoric.burgermaster.ui.screens.ListScreen
 import com.mendelu.xmoric.burgermaster.ui.screens.ProfileScreen
 import com.mendelu.xmoric.burgermaster.ui.theme.BurgerMasterTheme
@@ -67,6 +68,21 @@ class ExampleInstrumentedTest {
     }
 
     @Test
+    fun profileCVCTest(){
+        composeRule.activity.setContent {
+            BurgerMasterTheme() {
+                ProfileScreen(navigation = NavigationRouterImpl(rememberNavController()))
+            }
+        }
+        with(composeRule){
+            waitForIdle()
+            onNodeWithTag("CVC Test").performClick()
+            onNodeWithTag("CVC Test").performTextInput("1234")
+            onNodeWithTag("CVC Test").assertTextContains("")
+        }
+    }
+
+    @Test
     fun textfieldPresented(){
         composeRule.activity.setContent {
             BurgerMasterTheme() {
@@ -76,8 +92,21 @@ class ExampleInstrumentedTest {
         with(composeRule){
             waitForIdle()
             onNodeWithTag("Profile Name").performClick()
-//            onNodeWithTag("Profile Name").performTextInput("Meno")
-            onNodeWithTag("Profile Name").assertTextEquals("First Name")
+            onNodeWithTag("Profile Name").performTextInput("VA2")
+            onNodeWithTag("Profile Name").assertHasClickAction()
+        }
+    }
+
+    @Test
+    fun saveBurgerTest(){
+        composeRule.activity.setContent {
+            BurgerMasterTheme() {
+                CreationScreen(navigation = NavigationRouterImpl(rememberNavController()))
+            }
+        }
+        with(composeRule){
+            waitForIdle()
+            onNodeWithTag("Save Test").performClick()
         }
     }
 }

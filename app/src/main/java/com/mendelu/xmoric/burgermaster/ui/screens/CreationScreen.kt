@@ -9,6 +9,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -70,7 +71,9 @@ fun CreationScreen(navigation: INavigationRouter,
                 Button(
                     onClick = { viewModel.saveBurger() },
                     shape = RoundedCornerShape(100),
-                    modifier = Modifier.padding(end = 8.dp),
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .testTag("Save Test"),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = LightGreen,
                         contentColor = Color.DarkGray),

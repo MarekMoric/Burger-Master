@@ -314,12 +314,13 @@ fun ProfileScreen(navigation: INavigationRouter) {
                 onValueChange = {
                     if (it.length <= 3) securityCode = it
                 },
-                label = { Text("Security code") },
+                label = { Text("CVC") },
                 colors = TextFieldDefaults.textFieldColors(
                     textColor = Color.Black,
                     containerColor = Color.Transparent
                 ),
                 modifier = Modifier
+                    .testTag("CVC Test")
                     .fillMaxWidth()
             )
         }

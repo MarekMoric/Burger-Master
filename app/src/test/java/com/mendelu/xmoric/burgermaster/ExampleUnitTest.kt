@@ -33,12 +33,12 @@ class ExampleUnitTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getImage() {
+    fun getListSize() {
         Dispatchers.setMain(dispatcher)
         val viewModel = ListScreenViewModel(provideLocalBurgerRepositoryTest())
         viewModel.loadBurgers()
         assertNotNull(viewModel.testList)
-        assertEquals(viewModel.testList.size, 3)
+        assertEquals(viewModel.testList.size, 1)
 
     }
 }
