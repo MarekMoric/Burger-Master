@@ -80,7 +80,7 @@ class ARScreen : AppCompatActivity(), BaseArFragment.OnTapArPlaneListener,
         arFragment.setOnSceneChangeListener(this)
 
         lifecycleScope.launch {
-            loadModel("models/halloween.glb") //todo fix na burger
+            loadModel("models/burger_2.glb") //todo fix na burger
         }
 
     }
@@ -112,8 +112,8 @@ class ARScreen : AppCompatActivity(), BaseArFragment.OnTapArPlaneListener,
             transformableNode.renderableInstance.animate(true)
 
             //transformableNode.localScale = Vector3(0.1f, 0.1f,0.1f)
-            transformableNode.localPosition = Vector3(0f, 0.6f, 0f)
-            anchorNode!!.localScale = Vector3(0.1f, 0.1f,0.1f)
+            transformableNode.localPosition = Vector3(0f, 50f, 0f)
+            anchorNode!!.localScale = Vector3(0.005f, 0.005f,0.005f)
 
             anchorNode!!.addChild(transformableNode)
             return anchorNode
@@ -128,7 +128,7 @@ class ARScreen : AppCompatActivity(), BaseArFragment.OnTapArPlaneListener,
             if (camera.trackingState == TrackingState.TRACKING && anchorNode != null){
                 val cameraPosition = camera.displayOrientedPose
                 val distance = ARUtils.getDistanceToObject(cameraPosition, anchorNode!!.anchor!!.pose)
-                anchorNode!!.localScale = Vector3(0.1f*(distance*3), 0.1f*(distance*3),0.1f*(distance*3))
+//                anchorNode!!.localScale = Vector3(0.1f*(distance*3), 0.1f*(distance*3),0.1f*(distance*3))
                 Log.i("Distance", distance.toString())
             }
 

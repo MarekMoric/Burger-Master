@@ -34,6 +34,7 @@ import com.mendelu.xmoric.burgermaster.ui.elements.BackArrowScreen
 import com.mendelu.xmoric.burgermaster.ui.elements.LoadingScreen
 import org.koin.androidx.compose.getViewModel
 import com.mendelu.xmoric.burgermaster.R.drawable
+import com.mendelu.xmoric.burgermaster.ui.theme.LightBrown
 import kotlin.coroutines.coroutineContext
 
 @Composable
@@ -126,13 +127,9 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
     if(isNotLoading){
         Column {
             DropdownList(content = breadTypes, header = "Bread type", false, viewModel)
-            Log.d("vypis bread", viewModel.bread)
             DropdownList(content = meatTypes, header = "Meat", false, viewModel)
-            Log.d("vypis meat", viewModel.meat)
             DropdownList(content = sauceTypes, header = "Sauce", true, viewModel)
-            Log.d("vypis sauce", viewModel.sauce.toString())
             DropdownList(content = extrasTypes, header = "Extras", true, viewModel)
-            Log.d("vypis extras", viewModel.extras.toString())
 
             OutlinedTextField(
                 value = description,
@@ -156,31 +153,29 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
                     onClick = { navigation.navigateToNutrition() },
                     shape = RoundedCornerShape(40),
                     modifier = Modifier.padding(start = 8.dp),
-//                    colors = ButtonDefaults.buttonColors(
-//                        containerColor = Color.Green,
-//                        contentColor = Color.White),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = LightBrown),
                     content = { Text(text = "Nutrition Values") }
                 )
                 Button(
                     onClick = {
                         context.startActivity(Intent(context, ARScreen::class.java))
-                        navigation.navigateToAR()
-//                        startActivity(Intent(LocalContext.current, ARScreen::class.java))
+//                        navigation.navigateToAR()
                               },
                     shape = RoundedCornerShape(40),
                     modifier = Modifier.padding(end = 8.dp),
-//                    colors = ButtonDefaults.buttonColors(
-//                        containerColor = Color.Red,
-//                        contentColor = Color.White),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = LightBrown),
                     content = { Text(text = "3D Model") }
                 )
             }
             Button(
                 onClick = { navigation.navigateToMap() },
-//            shape = RoundedCornerShape(40),
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = LightBrown),
                 content = { Text(text = "Select a restaurant") }
             )
         }

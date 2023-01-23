@@ -3,10 +3,7 @@ package com.mendelu.xmoric.burgermaster.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -33,6 +30,8 @@ import com.mendelu.xmoric.burgermaster.model.Store
 import com.mendelu.xmoric.burgermaster.navigation.INavigationRouter
 import com.mendelu.xmoric.burgermaster.ui.elements.ErrorScreen
 import com.mendelu.xmoric.burgermaster.ui.elements.LoadingScreen
+import com.mendelu.xmoric.burgermaster.ui.theme.LightBrown
+import com.mendelu.xmoric.burgermaster.ui.theme.LightGreen
 import com.mendelu.xmoric.ukol2.map.CustomMapRenderer
 import org.koin.androidx.compose.getViewModel
 
@@ -80,14 +79,19 @@ fun MapScreen(navigation: INavigationRouter,
         }
     }
 
-    MapScreenStates(screenState = screenState.value)
+    MapScreenStates(
+        screenState = screenState.value,
+        navigation = navigation
+    )
 }
 
 @Composable
-fun MapScreenStates(screenState: ScreenState<Brno>) {
+fun MapScreenStates(screenState: ScreenState<Brno>, navigation: INavigationRouter) {
     screenState.let {
         when(it){
-            is ScreenState.DataLoaded -> MapScreenContent(it.data)
+            is ScreenState.DataLoaded -> MapScreenContent(
+                brno = it.data,
+                navigation = navigation)
             is ScreenState.Error -> ErrorScreen(text = "Error")
             is ScreenState.Loading -> LoadingScreen()
         }
@@ -96,7 +100,7 @@ fun MapScreenStates(screenState: ScreenState<Brno>) {
 
 @OptIn(MapsComposeExperimentalApi::class)
 @Composable
-fun MapScreenContent(brno: Brno) {
+fun MapScreenContent(brno: Brno, navigation: INavigationRouter) {
 
     val zoomLevel = 14f
 
@@ -172,17 +176,19 @@ fun MapScreenContent(brno: Brno) {
             }
         }
         if (currentMarker != null){
-            StoreDetail(marker = currentMarker!!)
+            StoreDetail(
+                marker = currentMarker!!,
+            navigation = navigation)
         }
     }
 }
 
 @Composable
-fun StoreDetail(marker: Marker) {
+fun StoreDetail(marker: Marker, navigation: INavigationRouter) {
     ElevatedCard(modifier = Modifier
-        .padding(bottom = 32.dp)
+        .padding(bottom = 64.dp)
         .fillMaxWidth(0.5f)
-        .height(80.dp),
+        .height(160.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.outlinedCardColors(),
     ) {
@@ -196,5 +202,14 @@ fun StoreDetail(marker: Marker) {
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(start = 32.dp),
             textAlign = TextAlign.Center)
+        Button(
+            onClick = { navigation.returnBack() },
+            shape = RoundedCornerShape(100),
+            modifier = Modifier.padding(end = 8.dp),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = LightBrown,
+                contentColor = Color.DarkGray),
+            content = { Text(text = "Place Order", style = MaterialTheme.typography.bodySmall) },
+        )
     }
 }

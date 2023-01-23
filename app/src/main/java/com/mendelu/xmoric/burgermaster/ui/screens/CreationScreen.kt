@@ -14,6 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.mendelu.xmoric.burgermaster.R
 import com.mendelu.xmoric.burgermaster.navigation.INavigationRouter
+import com.mendelu.xmoric.burgermaster.ui.theme.LightBrown
 import com.mendelu.xmoric.burgermaster.ui.theme.LightGreen
 import org.koin.androidx.compose.getViewModel
 
@@ -125,6 +126,8 @@ fun CreationScreen(navigation: INavigationRouter,
         Button(
             onClick = { navigation.navigateToMap() },
 //            shape = RoundedCornerShape(40),
+            colors = ButtonDefaults.buttonColors(
+                containerColor = LightBrown),
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxWidth(),
@@ -168,7 +171,7 @@ private fun DropdownList(content: List<String>, header: String, checkboxes: Bool
             value = selectedOptionText,
             onValueChange = {},
             label = { Text(header) },
-            maxLines = 1,
+            maxLines = 2,
             leadingIcon = { Image(painterResource(
                 id = icon),
                 contentDescription = "",

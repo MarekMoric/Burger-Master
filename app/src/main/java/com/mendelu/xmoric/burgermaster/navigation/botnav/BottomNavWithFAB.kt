@@ -19,6 +19,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.mendelu.xmoric.burgermaster.navigation.Destination
 import com.mendelu.xmoric.burgermaster.navigation.NavGraph
+import com.mendelu.xmoric.burgermaster.ui.theme.DarkBrown
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -32,7 +33,7 @@ fun BottomBarWithFabDem() {
     val navController = rememberNavController()
     Scaffold(
         bottomBar = {
-            BottomNavigation {
+            BottomNavigation(backgroundColor = DarkBrown) {
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
                 items.forEach { screen ->
