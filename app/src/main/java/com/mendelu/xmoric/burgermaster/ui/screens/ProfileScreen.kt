@@ -336,7 +336,8 @@ fun ProfileScreen(navigation: INavigationRouter) {
                 }
             },
             colors = ButtonDefaults.buttonColors(
-                containerColor = LightBrown
+                containerColor = LightBrown,
+                contentColor = Color.Black
             ),
             modifier = Modifier
                 .padding(8.dp)

@@ -121,9 +121,10 @@ fun CreationScreen(navigation: INavigationRouter,
         }
         Button(
             onClick = { navigation.navigateToMap() },
-//            shape = RoundedCornerShape(40),
             colors = ButtonDefaults.buttonColors(
-                containerColor = LightBrown),
+                containerColor = LightBrown,
+                contentColor = Color.Black
+            ),
             modifier = Modifier
                 .padding(8.dp)
                 .fillMaxWidth(),

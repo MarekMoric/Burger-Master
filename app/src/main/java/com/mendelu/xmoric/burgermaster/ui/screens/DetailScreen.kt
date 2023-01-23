@@ -152,7 +152,9 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
                     shape = RoundedCornerShape(40),
                     modifier = Modifier.padding(start = 8.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = LightBrown),
+                        containerColor = LightBrown,
+                        contentColor = Color.Black
+                    ),
                     content = { Text(text = "Nutrition Values") }
                 )
                 Button(
@@ -162,7 +164,9 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
                     shape = RoundedCornerShape(40),
                     modifier = Modifier.padding(end = 8.dp),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = LightBrown),
+                        containerColor = LightBrown,
+                        contentColor = Color.Black
+                    ),
                     content = { Text(text = "3D Model") }
                 )
             }
@@ -172,7 +176,9 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
                     .padding(8.dp)
                     .fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = LightBrown),
+                    containerColor = LightBrown,
+                    contentColor = Color.Black
+                ),
                 content = { Text(text = "Select a restaurant") }
             )
         }
