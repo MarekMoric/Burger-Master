@@ -112,7 +112,7 @@ class ARScreen : AppCompatActivity(), BaseArFragment.OnTapArPlaneListener,
             transformableNode.renderableInstance.animate(true)
 
             //transformableNode.localScale = Vector3(0.1f, 0.1f,0.1f)
-            transformableNode.localPosition = Vector3(0f, 50f, 0f)
+            transformableNode.localPosition = Vector3(0f, 17f, 0f)
             anchorNode!!.localScale = Vector3(0.005f, 0.005f,0.005f)
 
             anchorNode!!.addChild(transformableNode)

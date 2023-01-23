@@ -94,8 +94,7 @@ fun DetailScreen(navigation: INavigationRouter,
     BackArrowScreen(topBarText = burger.name!!,
         content = {  DetailScreenContent(
             viewModel = viewModel,
-            burger = burger,
-            burgerErrorMessage = burgerErrorMessage,
+            id = id,
             isNotLoading = isNotLoading,
             navigation = navigation)},
         onBackClick = {navigation.returnBack()},
@@ -111,8 +110,7 @@ fun DetailScreen(navigation: INavigationRouter,
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreenContent(viewModel: DetailScreenViewModel,
-                             burger: Burger,
-                             burgerErrorMessage: String,
+                             id: Long?,
                              isNotLoading: Boolean,
                              navigation: INavigationRouter) {
 
@@ -144,13 +142,13 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
                     .height(150.dp)
                     .padding(start = 8.dp, end = 8.dp)
             )
-            Spacer(modifier = Modifier.padding(16.dp))
+            Spacer(modifier = Modifier.padding(8.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Button(
-                    onClick = { navigation.navigateToNutrition() },
+                    onClick = { navigation.navigateToNutrition(id) },
                     shape = RoundedCornerShape(40),
                     modifier = Modifier.padding(start = 8.dp),
                     colors = ButtonDefaults.buttonColors(
@@ -230,7 +228,7 @@ private fun DropdownList(content: List<String>, header: String, checkboxes: Bool
             value = selectedOptionText,
             onValueChange = {},
             label = { Text(header) },
-            maxLines = 1,
+            maxLines = 2,
             leadingIcon = { Image(
                 painterResource(
                 id = icon),
@@ -274,7 +272,7 @@ private fun DropdownList(content: List<String>, header: String, checkboxes: Bool
             }
         }
     }
-    when (header) { //todo zmena na selectedOptionText a rozlisovat kazdu jednu volbu
+    when (header) {
         "Bread type" -> viewModel.bread = selectedOptionText
         "Meat" -> viewModel.meat = selectedOptionText
         "Sauce" -> viewModel.sauce[0] = selectedOptionText

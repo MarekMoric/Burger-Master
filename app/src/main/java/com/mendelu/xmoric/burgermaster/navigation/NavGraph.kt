@@ -54,8 +54,17 @@ fun NavGraph(
             ProfileScreen(navigation = navigation)
         }
 
-        composable(Destination.NutritionScreen.route) {
-            NutritionScreen(navigation = navigation)
+        composable(Destination.NutritionScreen.route + "/{id}",
+            arguments = listOf(navArgument("id"){
+                type = NavType.LongType
+                defaultValue = -1L
+            })
+        ){
+            val id = it.arguments?.getLong("id")
+            NutritionScreen(
+                navigation = navigation,
+                id = if (id != -1L) id else null
+            )
         }
 
         composable(Destination.ARScreen.route) {

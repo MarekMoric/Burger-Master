@@ -1,6 +1,7 @@
 package com.mendelu.xmoric.burgermaster.navigation
 
 import androidx.navigation.NavController
+import com.mendelu.xmoric.burgermaster.database.Burger
 import com.mendelu.xmoric.burgermaster.navigation.Destination
 import com.mendelu.xmoric.burgermaster.navigation.INavigationRouter
 
@@ -23,8 +24,8 @@ class NavigationRouterImpl(private val navController: NavController) : INavigati
         navController.navigate(Destination.ProfileScreen.route)
     }
 
-    override fun navigateToNutrition() {
-        navController.navigate(Destination.NutritionScreen.route)
+    override fun navigateToNutrition(id: Long?) {
+        navController.navigate(Destination.NutritionScreen.route + "/" + id)
     }
 
     override fun navigateToAR() {
