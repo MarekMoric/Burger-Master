@@ -126,8 +126,8 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
         Column {
             DropdownList(content = breadTypes, header = "Bread type", false, viewModel)
             DropdownList(content = meatTypes, header = "Meat", false, viewModel)
-            DropdownList(content = sauceTypes, header = "Sauce", true, viewModel)
-            DropdownList(content = extrasTypes, header = "Extras", true, viewModel)
+            DropdownList2(content = sauceTypes, header = "Sauce", true, viewModel)
+            DropdownList3(content = extrasTypes, header = "Extras", true, viewModel)
 
             OutlinedTextField(
                 value = description,
@@ -158,7 +158,6 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
                 Button(
                     onClick = {
                         context.startActivity(Intent(context, ARScreen::class.java))
-//                        navigation.navigateToAR()
                               },
                     shape = RoundedCornerShape(40),
                     modifier = Modifier.padding(end = 8.dp),
@@ -270,6 +269,233 @@ private fun DropdownList(content: List<String>, header: String, checkboxes: Bool
                     }
                 )
             }
+        }
+    }
+    when (header) {
+        "Bread type" -> viewModel.bread = selectedOptionText
+        "Meat" -> viewModel.meat = selectedOptionText
+        "Sauce" -> viewModel.sauce[0] = selectedOptionText
+        "Extras" -> viewModel.extras[0] = selectedOptionText
+        else -> {
+            Text(text = "else branch")
+        }
+    }
+    return selectedOptionText
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DropdownList2(content: List<String>, header: String, checkboxes: Boolean, viewModel: DetailScreenViewModel): String{
+
+    val vmData = when (header) {
+        "Bread type" -> viewModel.burger.bread!!
+        "Meat" -> viewModel.burger.meat!!
+        "Sauce" -> viewModel.burger.sauce!!
+        "Extras" -> viewModel.burger.extras!!
+        else -> {
+            ""
+        }
+    }
+    var expanded by remember { mutableStateOf(false) }
+    var selectedOptionText by remember { mutableStateOf(vmData) }
+    var icon: Int = 0
+
+    icon = when (selectedOptionText) {
+        "Mustard" -> com.mendelu.xmoric.burgermaster.R.drawable.mustard_sauce
+        "Mustard, Ketchup" -> com.mendelu.xmoric.burgermaster.R.drawable.ketchup
+        "Mustard, Ketchup, Bacon" -> com.mendelu.xmoric.burgermaster.R.drawable.bacon_sauce
+        "Mustard, Bacon" -> com.mendelu.xmoric.burgermaster.R.drawable.bacon_sauce
+        "Mustard, Bacon, Ketchup" -> com.mendelu.xmoric.burgermaster.R.drawable.ketchup
+        "Ketchup" -> com.mendelu.xmoric.burgermaster.R.drawable.ketchup
+        "Ketchup, Bacon" -> com.mendelu.xmoric.burgermaster.R.drawable.bacon_sauce
+        "Ketchup, Bacon, Mustard" -> com.mendelu.xmoric.burgermaster.R.drawable.mustard_sauce
+        "Ketchup, Mustard" -> com.mendelu.xmoric.burgermaster.R.drawable.mustard_sauce
+        "Ketchup, Mustard, Bacon" -> com.mendelu.xmoric.burgermaster.R.drawable.bacon_sauce
+        "Bacon" -> com.mendelu.xmoric.burgermaster.R.drawable.bacon_sauce
+        "Bacon, Ketchup" -> com.mendelu.xmoric.burgermaster.R.drawable.ketchup
+        "Bacon, Ketchup, Mustard" -> com.mendelu.xmoric.burgermaster.R.drawable.mustard_sauce
+        "Bacon, Mustard" -> com.mendelu.xmoric.burgermaster.R.drawable.mustard_sauce
+        "Bacon, Mustard, Ketchup" -> com.mendelu.xmoric.burgermaster.R.drawable.ketchup
+        else -> {
+            com.mendelu.xmoric.burgermaster.R.drawable.ketchup
+        }
+    }
+
+    ExposedDropdownMenuBox(
+        modifier = Modifier.padding(16.dp),
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+    ) {
+        TextField(
+            readOnly = true,
+            value = selectedOptionText,
+            onValueChange = {},
+            label = { Text(header) },
+            maxLines = 2,
+            leadingIcon = { Image(
+                painterResource(
+                    id = icon),
+                contentDescription = "",
+                modifier = Modifier.size(48.dp)) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = Color.Black,
+                containerColor = Color.Transparent
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(),
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            content.forEach { item ->
+                DropdownMenuItem(
+                    text = { Text(item) },
+                    onClick = {
+                        selectedOptionText = item
+                        expanded = false
+                    },
+                    trailingIcon = {
+                        if (checkboxes) {
+                            Button(
+                                enabled = !selectedOptionText.contains(item),
+                                onClick = { selectedOptionText += ", $item" },
+                                shape = RoundedCornerShape(40),
+                                modifier = Modifier.padding(end = 8.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.Transparent,
+                                    contentColor = Color.DarkGray),
+                                content = { Text(text = "Add", style = MaterialTheme.typography.bodySmall) },
+                            )
+                        }
+                    }
+                )
+            }
+            Button(
+                enabled = true,
+                onClick = { selectedOptionText = "Ketchup" },
+                shape = RoundedCornerShape(40),
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = Color.DarkGray),
+                content = { Text(text = "Clear", style = MaterialTheme.typography.bodySmall) })
+        }
+    }
+
+    when (header) {
+        "Bread type" -> viewModel.bread = selectedOptionText
+        "Meat" -> viewModel.meat = selectedOptionText
+        "Sauce" -> viewModel.sauce[0] = selectedOptionText
+        "Extras" -> viewModel.extras[0] = selectedOptionText
+        else -> {
+            Text(text = "else branch")
+        }
+    }
+    return selectedOptionText
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun DropdownList3(content: List<String>, header: String, checkboxes: Boolean, viewModel: DetailScreenViewModel): String{
+
+    val vmData = when (header) {
+        "Bread type" -> viewModel.burger.bread!!
+        "Meat" -> viewModel.burger.meat!!
+        "Sauce" -> viewModel.burger.sauce!!
+        "Extras" -> viewModel.burger.extras!!
+        else -> {
+            ""
+        }
+    }
+    var expanded by remember { mutableStateOf(false) }
+    var selectedOptionText by remember { mutableStateOf(vmData) }
+    var icon: Int = 0
+
+    icon = when (selectedOptionText) {
+        "Mustard" -> com.mendelu.xmoric.burgermaster.R.drawable.mustard_sauce
+        "Mustard, Ketchup" -> com.mendelu.xmoric.burgermaster.R.drawable.ketchup
+        "Mustard, Ketchup, Bacon" -> com.mendelu.xmoric.burgermaster.R.drawable.bacon_sauce
+        "Mustard, Bacon" -> com.mendelu.xmoric.burgermaster.R.drawable.bacon_sauce
+        "Mustard, Bacon, Ketchup" -> com.mendelu.xmoric.burgermaster.R.drawable.ketchup
+        "Ketchup" -> com.mendelu.xmoric.burgermaster.R.drawable.ketchup
+        "Ketchup, Bacon" -> com.mendelu.xmoric.burgermaster.R.drawable.bacon_sauce
+        "Ketchup, Bacon, Mustard" -> com.mendelu.xmoric.burgermaster.R.drawable.mustard_sauce
+        "Ketchup, Mustard" -> com.mendelu.xmoric.burgermaster.R.drawable.mustard_sauce
+        "Ketchup, Mustard, Bacon" -> com.mendelu.xmoric.burgermaster.R.drawable.bacon_sauce
+        "Bacon" -> com.mendelu.xmoric.burgermaster.R.drawable.bacon_sauce
+        "Bacon, Ketchup" -> com.mendelu.xmoric.burgermaster.R.drawable.ketchup
+        "Bacon, Ketchup, Mustard" -> com.mendelu.xmoric.burgermaster.R.drawable.mustard_sauce
+        "Bacon, Mustard" -> com.mendelu.xmoric.burgermaster.R.drawable.mustard_sauce
+        "Bacon, Mustard, Ketchup" -> com.mendelu.xmoric.burgermaster.R.drawable.ketchup
+        else -> {
+            com.mendelu.xmoric.burgermaster.R.drawable.ketchup
+        }
+    }
+
+    ExposedDropdownMenuBox(
+        modifier = Modifier.padding(16.dp),
+        expanded = expanded,
+        onExpandedChange = { expanded = !expanded },
+    ) {
+        TextField(
+            readOnly = true,
+            value = selectedOptionText,
+            onValueChange = {},
+            label = { Text(header) },
+            maxLines = 2,
+            leadingIcon = { Image(
+                painterResource(
+                    id = com.mendelu.xmoric.burgermaster.R.drawable.bacon),
+                contentDescription = "",
+                modifier = Modifier.size(48.dp)) },
+            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = Color.Black,
+                containerColor = Color.Transparent
+            ),
+            modifier = Modifier
+                .fillMaxWidth()
+                .menuAnchor(),
+        )
+        ExposedDropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            content.forEach { item ->
+                DropdownMenuItem(
+                    text = { Text(item) },
+                    onClick = {
+                        selectedOptionText = item
+                        expanded = false
+                    },
+                    trailingIcon = {
+                        if (checkboxes) {
+                            Button(
+                                enabled = !selectedOptionText.contains(item),
+                                onClick = { selectedOptionText += ", $item" },
+                                shape = RoundedCornerShape(40),
+                                modifier = Modifier.padding(end = 8.dp),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.Transparent,
+                                    contentColor = Color.DarkGray),
+                                content = { Text(text = "Add", style = MaterialTheme.typography.bodySmall) },
+                            )
+                        }
+                    }
+                )
+            }
+            Button(
+                enabled = true,
+                onClick = { selectedOptionText = "Grilled Bacon" },
+                shape = RoundedCornerShape(40),
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Transparent,
+                    contentColor = Color.DarkGray),
+                content = { Text(text = "Clear", style = MaterialTheme.typography.bodySmall) })
         }
     }
     when (header) {
