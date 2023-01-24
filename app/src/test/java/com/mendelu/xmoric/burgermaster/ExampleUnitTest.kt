@@ -66,6 +66,6 @@ class ExampleUnitTest {
         val viewModel = DetailScreenViewModel(provideLocalBurgerRepositoryTest())
         viewModel.initBurger()
         viewModel.deleteBurger()
-        assertEquals(viewModel.testBurger.toString(), "com.mendelu.xmoric.burgermaster.database.Burger@49ff7d8c")
+        assertEquals(viewModel.testBurger.toString(), "com.mendelu.xmoric.burgermaster.database.Burger@2bd08376")
     }
 }

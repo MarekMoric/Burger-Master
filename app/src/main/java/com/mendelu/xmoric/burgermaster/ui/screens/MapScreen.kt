@@ -33,6 +33,8 @@ import com.mendelu.xmoric.burgermaster.navigation.INavigationRouter
 import com.mendelu.xmoric.burgermaster.ui.elements.BackArrowScreen
 import com.mendelu.xmoric.burgermaster.ui.elements.ErrorScreen
 import com.mendelu.xmoric.burgermaster.ui.elements.LoadingScreen
+import com.mendelu.xmoric.burgermaster.ui.theme.DarkGreen
+import com.mendelu.xmoric.burgermaster.ui.theme.DarkYellow
 import com.mendelu.xmoric.burgermaster.ui.theme.LightBrown
 import com.mendelu.xmoric.burgermaster.ui.theme.LightGreen
 import com.mendelu.xmoric.ukol2.map.CustomMapRenderer
@@ -167,23 +169,41 @@ fun MapScreenContent(brno: Brno, navigation: INavigationRouter) {
         if (currentMarker != null){
             StoreDetail(
                 marker = currentMarker!!,
-            navigation = navigation)
+                navigation = navigation)
         }
     }
 }
 
 @Composable
 fun StoreDetail(marker: Marker, navigation: INavigationRouter) {
+    val cardColor: Color
+
+    if (marker.snippet!!.toFloat() * 10 < 9.4){
+        cardColor = DarkGreen
+    } else if (marker.snippet!!.toFloat() * 10 > 10.7){
+        cardColor = Color.Red
+    } else {
+        cardColor = DarkYellow
+    }
 
     ElevatedCard(modifier = Modifier
         .padding(bottom = 64.dp)
         .fillMaxWidth(0.5f)
         .height(160.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.outlinedCardColors(),
+        colors = CardDefaults.outlinedCardColors(
+//            containerColor = cardColor
+        ),
     ) {
         Text(text = marker.title!!,
             fontSize = 24.sp,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(top = 16.dp, start = 50.dp),
+            textAlign = TextAlign.Center,
+            color = cardColor)
+
+        Text(text = "Price: ${marker.snippet!!.toFloat() * 9}€",
+            fontSize = 16.sp,
             style = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.padding(top = 16.dp, start = 50.dp),
             textAlign = TextAlign.Center)
@@ -196,7 +216,7 @@ fun StoreDetail(marker: Marker, navigation: INavigationRouter) {
             modifier = Modifier.padding(start = 40.dp),
             colors = ButtonDefaults.buttonColors(
                 containerColor = LightBrown,
-                contentColor = Color.DarkGray),
+                contentColor = Color.Black),
             content = { Text(text = "Place Order", style = MaterialTheme.typography.bodySmall) },
         )
     }

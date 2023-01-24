@@ -146,7 +146,7 @@ fun BurgerRow(burger: Burger,
                     Text(
                         fontWeight = FontWeight.Normal,
                         maxLines = 2,
-                        text = "Ingedients: ${burger.extras}",
+                        text = "Ingredients: ${burger.extras}",
                         modifier = Modifier.padding(start = 16.dp)
                     )
                     Text(

@@ -23,6 +23,7 @@ class Store(
     }
 
     override fun getSnippet(): String? {
-        return type
+        return price.toString()
     }
+
 }
