@@ -9,6 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mendelu.xmoric.burgermaster.navigation.Destination
 import com.mendelu.xmoric.burgermaster.navigation.NavigationRouterImpl
 import com.mendelu.xmoric.burgermaster.ui.screens.CreationScreen
+import com.mendelu.xmoric.burgermaster.ui.screens.DetailScreen
 import com.mendelu.xmoric.burgermaster.ui.screens.ListScreen
 import com.mendelu.xmoric.burgermaster.ui.screens.ProfileScreen
 import com.mendelu.xmoric.burgermaster.ui.theme.BurgerMasterTheme
@@ -49,6 +50,19 @@ class ExampleInstrumentedTest {
             waitForIdle()
             onNodeWithTag("BurgerTagList").assertExists(null)
             onNodeWithTag("Burger Row2").assertExists(null)
+        }
+    }
+
+    @Test
+    fun creationIconTest(){
+        composeRule.activity.setContent {
+            BurgerMasterTheme() {
+                CreationScreen(navigation = NavigationRouterImpl(rememberNavController()))
+            }
+        }
+        with(composeRule){
+            waitForIdle()
+            onAllNodesWithTag("Icon test").assertCountEquals(4)
         }
     }
 
@@ -109,5 +123,86 @@ class ExampleInstrumentedTest {
             onNodeWithTag("Save Test").performClick()
         }
     }
+
+    @Test
+    fun mapTest(){
+        composeRule.activity.setContent {
+            BurgerMasterTheme() {
+                CreationScreen(navigation = NavigationRouterImpl(rememberNavController()))
+            }
+        }
+        with(composeRule){
+            waitForIdle()
+            onNodeWithTag("Map Test").assertExists()
+        }
+    }
+
+    @Test
+    fun creationNeedsTest(){
+        composeRule.activity.setContent {
+            BurgerMasterTheme() {
+                CreationScreen(navigation = NavigationRouterImpl(rememberNavController()))
+            }
+        }
+        with(composeRule){
+            waitForIdle()
+            onNodeWithTag("Creation needs").assertExists()
+        }
+    }
+
+    @Test
+    fun creationNeedsTextTest(){
+        composeRule.activity.setContent {
+            BurgerMasterTheme() {
+                CreationScreen(navigation = NavigationRouterImpl(rememberNavController()))
+            }
+        }
+        with(composeRule){
+            waitForIdle()
+            onNodeWithTag("Creation needs").performClick()
+            onNodeWithTag("Creation needs").performTextInput("I need burger")
+            onNodeWithTag("Creation needs").assertTextContains("I need burger")
+        }
+    }
+
+//    @Test
+//    fun nutritionTest(){
+//        composeRule.activity.setContent {
+//            BurgerMasterTheme() {
+//                DetailScreen(navigation = NavigationRouterImpl(rememberNavController()), id = 1)
+//            }
+//        }
+//        with(composeRule){
+//            waitForIdle()
+//            onNodeWithTag("Nutrition Test").assertExists()
+//        }
+//    }
+//
+//    @Test
+//    fun arTest(){
+//        composeRule.activity.setContent {
+//            BurgerMasterTheme() {
+//                DetailScreen(navigation = NavigationRouterImpl(rememberNavController()), id = 1)
+//            }
+//        }
+//        with(composeRule){
+//            waitForIdle()
+//            onNodeWithTag("AR Test").assertExists()
+//        }
+//    }
+//
+//    @Test
+//    fun detailMapTest(){
+//        composeRule.activity.setContent {
+//            BurgerMasterTheme() {
+//                DetailScreen(navigation = NavigationRouterImpl(rememberNavController()), id = 1)
+//            }
+//        }
+//        with(composeRule){
+//            waitForIdle()
+//            onNodeWithTag("Map Test").assertExists()
+//        }
+//    }
+
 }
 

@@ -2,6 +2,7 @@ package com.mendelu.xmoric.burgermaster
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mendelu.xmoric.burgermaster.dependency.DITest.provideLocalBurgerRepositoryTest
+import com.mendelu.xmoric.burgermaster.ui.screens.DetailScreenViewModel
 import com.mendelu.xmoric.burgermaster.ui.screens.ListScreenViewModel
 
 import kotlinx.coroutines.Dispatchers
@@ -33,12 +34,38 @@ class ExampleUnitTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun getListSize() {
+    fun getList() {
         Dispatchers.setMain(dispatcher)
         val viewModel = ListScreenViewModel(provideLocalBurgerRepositoryTest())
         viewModel.loadBurgers()
         assertNotNull(viewModel.testList)
-        assertEquals(viewModel.testList.size, 1)
+    }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun getListSize() {
+        Dispatchers.setMain(dispatcher)
+        val viewModel = ListScreenViewModel(provideLocalBurgerRepositoryTest())
+        viewModel.loadBurgers()
+        assertEquals(viewModel.testList.size, 1)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun tryInit() {
+        Dispatchers.setMain(dispatcher)
+        val viewModel = DetailScreenViewModel(provideLocalBurgerRepositoryTest())
+        viewModel.initBurger()
+        assertNotEquals(viewModel.testBurger, null)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun tryDelete() {
+        Dispatchers.setMain(dispatcher)
+        val viewModel = DetailScreenViewModel(provideLocalBurgerRepositoryTest())
+        viewModel.initBurger()
+        viewModel.deleteBurger()
+        assertEquals(viewModel.testBurger.toString(), "com.mendelu.xmoric.burgermaster.database.Burger@49ff7d8c")
     }
 }

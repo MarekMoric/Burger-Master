@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.R
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -150,7 +151,9 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
                 Button(
                     onClick = { navigation.navigateToNutrition(id) },
                     shape = RoundedCornerShape(40),
-                    modifier = Modifier.padding(start = 8.dp),
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .testTag("Nutrition Test"),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = LightBrown,
                         contentColor = Color.Black
@@ -162,7 +165,9 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
                         context.startActivity(Intent(context, ARScreen::class.java))
                               },
                     shape = RoundedCornerShape(40),
-                    modifier = Modifier.padding(end = 8.dp),
+                    modifier = Modifier
+                        .padding(end = 8.dp)
+                        .testTag("AR Test"),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = LightBrown,
                         contentColor = Color.Black
@@ -174,7 +179,8 @@ fun DetailScreenContent(viewModel: DetailScreenViewModel,
                 onClick = { navigation.navigateToMap() },
                 modifier = Modifier
                     .padding(8.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .testTag("Map Test"),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = LightBrown,
                     contentColor = Color.Black

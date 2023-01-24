@@ -115,6 +115,7 @@ fun CreationScreen(navigation: INavigationRouter,
                 .fillMaxWidth()
                 .height(150.dp)
                 .padding(start = 8.dp, end = 8.dp)
+                .testTag("Creation needs")
         )
         Spacer(modifier = Modifier.padding(8.dp))
         Row(
@@ -130,7 +131,8 @@ fun CreationScreen(navigation: INavigationRouter,
             ),
             modifier = Modifier
                 .padding(8.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .testTag("Map Test"),
             content = { Text(text = "Select a restaurant") }
         )
     }
@@ -162,7 +164,7 @@ private fun DropdownList(content: List<String>, header: String, checkboxes: Bool
     }
 
     ExposedDropdownMenuBox(
-        modifier = Modifier.padding(16.dp),
+        modifier = Modifier.padding(16.dp).testTag("Icon test"),
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
     ) {
@@ -175,7 +177,7 @@ private fun DropdownList(content: List<String>, header: String, checkboxes: Bool
             leadingIcon = { Image(painterResource(
                 id = icon),
                 contentDescription = "",
-                modifier = Modifier.size(48.dp)) },
+                modifier = Modifier.size(48.dp).testTag("Icon test")) },
             trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
             colors = TextFieldDefaults.textFieldColors(
                 textColor = Color.Black,
@@ -183,7 +185,8 @@ private fun DropdownList(content: List<String>, header: String, checkboxes: Bool
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .menuAnchor(),
+                .menuAnchor()
+                .testTag("Icon test"),
         )
         ExposedDropdownMenu(
             expanded = expanded,

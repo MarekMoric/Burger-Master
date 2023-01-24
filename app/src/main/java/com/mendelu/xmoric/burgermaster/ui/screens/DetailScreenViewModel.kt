@@ -9,12 +9,14 @@ import kotlinx.coroutines.launch
 
 class DetailScreenViewModel(private val burgersRepository: IBurgerLocalRepository): BaseViewModel() {
 
-    var burgerId: Long? = null
+    var burgerId: Long? = 1
     var burger: Burger = Burger("")
     var bread: String = ""
     var meat: String = ""
     var sauce = mutableListOf("")
     var extras = mutableListOf("")
+
+    var testBurger: Burger = Burger("")
 
 
     private val _detailUIState
@@ -27,6 +29,7 @@ class DetailScreenViewModel(private val burgersRepository: IBurgerLocalRepositor
             launch {
                 burger = burgersRepository.findById(id = burgerId!!)
                 _detailUIState.value = DetailUIState.BurgerLoaded
+                testBurger = burgersRepository.findById(id = burgerId!!)
             }
         }else{
             _detailUIState.value = DetailUIState.BurgerError(-666)
@@ -36,6 +39,7 @@ class DetailScreenViewModel(private val burgersRepository: IBurgerLocalRepositor
     fun deleteBurger() {
         launch {
             burgersRepository.delete(burger)
+            burgersRepository.delete(testBurger)
             _detailUIState.value = DetailUIState.BurgerRemoved
         }
     }
